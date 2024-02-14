@@ -4,10 +4,10 @@ import java.math.BigInteger;
 import java.math.BigDecimal;
 
 public class B {
-    public static void printResult(String result, String operation) {
+    public void printResult(String result, String operation) {
         System.out.printf("%s result: %s \n", operation, result);
     }
-    public static void applyTheOperation(BigDecimal num1, BigDecimal num2, String operation) {
+    public void applyTheOperation(BigDecimal num1, BigDecimal num2, String operation) {
         switch (operation) {
             case ("ADD"):
                 printResult((num1.add(num2)).toString(), operation);
@@ -27,9 +27,11 @@ public class B {
             case ("POW"):
                 printResult((num1.pow(num2.intValue())).toString(), operation);
                 break;
+            default:
+                System.out.println("Такая операция не реализована");
         }
     }
-    public static void applyTheOperation(BigInteger num1, BigInteger num2, String operation) {
+    public void applyTheOperation(BigInteger num1, BigInteger num2, String operation) {
         switch (operation) {
             case ("ADD"):
                 printResult((num1.add(num2)).toString(), operation);
@@ -69,10 +71,14 @@ public class B {
                 return;
             }
         }
-
-        if (num1.contains(".") || num2.contains("."))
-            applyTheOperation(new BigDecimal(num1), new BigDecimal(num2), operation);
-        else
-            applyTheOperation(new BigInteger(num1), new BigInteger(num2), operation);
+        try {
+            if (num1.contains(".") || num2.contains("."))
+                applyTheOperation(new BigDecimal(num1), new BigDecimal(num2), operation);
+            else
+                applyTheOperation(new BigInteger(num1), new BigInteger(num2), operation);
+        }
+        catch (ArithmeticException e){
+          System.out.println("Арифметическая ошибка: " + e.getMessage());
+        }
     }
 }
