@@ -51,8 +51,7 @@ public class B {
                 break;
         }
     }
-    public void calculation() {
-        Scanner in = new Scanner(System.in);
+    public void calculation(Scanner in) {
         System.out.print("Input: ");
         String num1 = in.next();
         String num2 = in.next();
@@ -73,7 +72,5 @@ public class B {
             applyTheOperation(new BigDecimal(num1), new BigDecimal(num2), operation);
         else
             applyTheOperation(new BigInteger(num1), new BigInteger(num2), operation);
-
-        in.close();
     }
 }
