@@ -49,6 +49,8 @@ public class B {
             case ("POW"):
                 printResult((num1.pow(num2.intValue())).toString(), operation);
                 break;
+            default:
+                System.out.println("Такая операция не реализована");
         }
     }
     public void calculation(Scanner in) {
