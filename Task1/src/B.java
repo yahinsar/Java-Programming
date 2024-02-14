@@ -78,7 +78,7 @@ public class B {
                 applyTheOperation(new BigInteger(num1), new BigInteger(num2), operation);
         }
         catch (ArithmeticException e){
-          System.out.println("Арифметическая ошибка: " + e.getMessage());
+          System.out.println("Арифметическая ошибка: " + e.getMessage() + ": num1 = "+ num1 + "; num2 = " + num2);
         }
     }
 }
