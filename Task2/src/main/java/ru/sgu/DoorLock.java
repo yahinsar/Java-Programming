@@ -1,7 +1,13 @@
 package main.java.ru.sgu;
 
-class DoorLock extends AbstractSmartDevice {
+import java.util.Objects;
+
+class DoorLock extends AbstractSmartDevice implements SmartDevice {
     private boolean isLocked = false;
+
+    public DoorLock(String deviceId) {
+        super(deviceId);
+    }
 
     public void lock() {
         isLocked = true;

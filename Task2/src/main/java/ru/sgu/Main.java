@@ -2,15 +2,16 @@ package main.java.ru.sgu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
 
         List<SmartDevice> devices = new ArrayList<>();
 
-        AirConditioner ac = new AirConditioner();
-        DoorLock doorLock = new DoorLock();
-        Lamp lamp = new Lamp();
+        AirConditioner ac = new AirConditioner("AC1");
+        DoorLock doorLock = new DoorLock("DL1");
+        Lamp lamp = new Lamp("L1");
 
         devices.add(ac);
         devices.add(doorLock);
