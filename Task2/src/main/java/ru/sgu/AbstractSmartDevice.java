@@ -3,24 +3,53 @@ package main.java.ru.sgu;
 import java.util.Objects;
 
 abstract class AbstractSmartDevice implements SmartDevice, Comparable <AbstractSmartDevice>, Cloneable {
-    private final String deviceId;
+    private String deviceId;
+    private String wifiName;
     private boolean isTurnedOn;
-    public AbstractSmartDevice(String deviceId) {
-        this.deviceId = deviceId;
+
+    public AbstractSmartDevice(String deviceId, String wifiName, boolean isTurnedOn) {
+        setAbstractSmartDevice(deviceId, wifiName, isTurnedOn);
     }
 
     public void turnOn() {
         isTurnedOn = true;
-        System.out.println("Включено устройство \"" + getDeviceName() + "\"");
+        System.out.println("Включено устройство \"" + getDeviceName() + "\" (ID: " + deviceId + ")");
     }
 
     public void turnOff() {
         isTurnedOn = false;
-        System.out.println("Выключено устройство \"" + getDeviceName() + "\"");
+        System.out.println("Выключено устройство \"" + getDeviceName() + "\" (ID: " + deviceId + ")");
     }
 
     public String getDeviceID() {
         return deviceId;
+    }
+
+    public String getWifiName() {
+        return wifiName;
+    }
+
+    public void setDeviceID(String deviceID) {
+        if (deviceID == null) {
+            throw new IllegalArgumentException("Ошибка: передано пустое значение.");
+        }
+        this.deviceId = deviceID;
+    }
+
+    public void setWifiName(String wifiName) {
+        if (wifiName == null) {
+            throw new IllegalArgumentException("Ошибка: передано пустое значение.");
+        }
+        this.wifiName = wifiName;
+    }
+
+    public void setAbstractSmartDevice(String deviceID, String wifiName, boolean isTurnedOn) {
+        if (deviceID == null || wifiName == null) {
+            throw new IllegalArgumentException("Ошибка: передано пустое значение.");
+        }
+        setDeviceID(deviceID);
+        setWifiName(wifiName);
+        this.isTurnedOn = isTurnedOn;
     }
 
     public boolean isOn() {
@@ -34,12 +63,14 @@ abstract class AbstractSmartDevice implements SmartDevice, Comparable <AbstractS
         if (obj == null || getClass() != obj.getClass())
             return false;
         AbstractSmartDevice that = (AbstractSmartDevice) obj;
-        return isTurnedOn == that.isTurnedOn && Objects.equals(deviceId, that.deviceId);
+        return isTurnedOn == that.isTurnedOn &&
+                Objects.equals(deviceId, that.deviceId) &&
+                Objects.equals(wifiName, that.wifiName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isTurnedOn, deviceId);
+        return Objects.hash(isTurnedOn, deviceId, wifiName);
     }
 
     @Override
@@ -48,7 +79,12 @@ abstract class AbstractSmartDevice implements SmartDevice, Comparable <AbstractS
         if (onComparison != 0) {
             return onComparison;
         } else {
-            return this.deviceId.compareTo(device.deviceId);
+            int deviceIDComparison = this.deviceId.compareTo(device.deviceId);
+            if (deviceIDComparison != 0) {
+                return deviceIDComparison;
+            } else {
+                return this.wifiName.compareTo(device.wifiName);
+            }
         }
     }
 
@@ -57,21 +93,17 @@ abstract class AbstractSmartDevice implements SmartDevice, Comparable <AbstractS
         return "AbstractSmartDevice{" +
                 "isTurnedOn=" + isTurnedOn +
                 ", deviceId='" + deviceId + '\'' +
+                ", wifiName='" + wifiName + '\'' +
                 '}';
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public AbstractSmartDevice deepCopy() {
         try {
-            return super.clone();
+            AbstractSmartDevice copy = (AbstractSmartDevice) super.clone();
+            //copy.setAbstractSmartDevice(this.deviceId, this.wifiName, this.isTurnedOn);
+            return copy;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
     }
-
-    public AbstractSmartDevice shallowCopy() throws CloneNotSupportedException {
-        return (AbstractSmartDevice) clone();
-    }
-
-    //public AbstractSmartDevice deepCopy() { }
 }
