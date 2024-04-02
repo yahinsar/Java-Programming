@@ -1,8 +1,9 @@
 package main.java.ru.sgu;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-abstract class AbstractSmartDevice implements SmartDevice, Comparable <AbstractSmartDevice>, Cloneable {
+abstract class AbstractSmartDevice implements SmartDevice, Comparable <AbstractSmartDevice>, Cloneable, Serializable {
     private String deviceId;
     private String wifiName;
     private boolean isTurnedOn;
@@ -100,10 +101,16 @@ abstract class AbstractSmartDevice implements SmartDevice, Comparable <AbstractS
     public AbstractSmartDevice deepCopy() {
         try {
             AbstractSmartDevice copy = (AbstractSmartDevice) super.clone();
-            //copy.setAbstractSmartDevice(this.deviceId, this.wifiName, this.isTurnedOn);
+            //У меня нет объектов других классов и массивов, поэтому тут ничего нет, а так я бы создал новые ссылки тут на них
             return copy;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

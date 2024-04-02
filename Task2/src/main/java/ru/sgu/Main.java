@@ -1,10 +1,11 @@
 package main.java.ru.sgu;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         //общие проверки
         String wifiNet = "tp-link";
@@ -68,16 +69,33 @@ public class Main {
         System.out.println("\nДо изменений:");
         System.out.println("Оригинальный объект:");
         System.out.println(ac);
-        AbstractSmartDevice acShallowCopy = ac;
-        AbstractSmartDevice acDeepCopy = ac.deepCopy();
-        acShallowCopy.setDeviceID("001-NEW");
-        ac.setWifiName("beeline");
+        AbstractSmartDevice acCopy = ac; //Просто присвоение сделал
+        AbstractSmartDevice acShallowCopy = (AbstractSmartDevice) ac.clone(); //Поверхностная копия
+        AbstractSmartDevice acDeepCopy = ac.deepCopy(); //Глубокая копия через clone
+
+        //Глубокая копия через сериализацию (беспощадный, страшный, ненасытный метод, кушает много памяти, но работает)
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream ous = new ObjectOutputStream(baos);
+        ous.writeObject(ac);
+        ous.close();
+        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+        ObjectInputStream ois = new ObjectInputStream(bais);
+        AbstractSmartDevice acSerialCopy = (AbstractSmartDevice) ois.readObject();
+
+        acCopy.setDeviceID("001-NEW"); //Меняется как в acCopy, так и в ac
+        ac.setWifiName("beeline"); //Меняется в ac и acCopy
+        acShallowCopy.turnOn(); //Меняется только в acShallowCopy
         System.out.println("\nПосле изменений:");
         System.out.println("Оригинальный объект:");
         System.out.println(ac);
+        System.out.println("\nПрисвоенная копия:");
+        System.out.println(acCopy);
         System.out.println("\nПоверхностная копия:");
         System.out.println(acShallowCopy);
-        System.out.println("\nГлубокая копия:");
+        System.out.println("\nГлубокая копия через clone:");
         System.out.println(acDeepCopy);
+        System.out.println("\nГлубокая копия через сериализацию:");
+        System.out.println(acSerialCopy);
+
     }
 }
