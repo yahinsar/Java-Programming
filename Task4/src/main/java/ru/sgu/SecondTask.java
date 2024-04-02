@@ -9,7 +9,6 @@ public class SecondTask {
         monday, tuesday, wednesday, thursday, friday, saturday, sunday;
         public DayOfWeek nextDay(int days) {
             int nextOrdinal = (this.ordinal() + days) % 7;
-            if (nextOrdinal < 0) nextOrdinal += 7;
             return DayOfWeek.values()[nextOrdinal];
         }
     }
