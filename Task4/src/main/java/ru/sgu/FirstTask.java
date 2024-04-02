@@ -62,6 +62,7 @@ public class FirstTask {
             int day = Integer.parseInt(parts[2]);
             return LocalDate.of(year, month, day);
         } catch (Exception e) {
+            System.out.println("Введена дата в некорректном виде.");
             return null;
         }
     }
