@@ -4,11 +4,12 @@ import java.util.*;
 
 public class FirstTask {
     public static void main(String[] args) {
-        List<Stock> stocks = readStocks();
-        sortAndPrintStocks(stocks);
+        FirstTask task = new FirstTask();
+        List<Stock> stocks = task.readStocks();
+        task.sortAndPrintStocks(stocks);
     }
 
-    public static List<Stock> readStocks() {
+    public List<Stock> readStocks() {
         Scanner scanner = new Scanner(System.in);
         List<Stock> stocks = new ArrayList<>();
 
@@ -30,7 +31,7 @@ public class FirstTask {
         return stocks;
     }
 
-    public static void sortAndPrintStocks(List<Stock> stocks) {
+    public void sortAndPrintStocks(List<Stock> stocks) {
         Collections.sort(stocks);
         Set<String> resultStrs = new HashSet<>();
         for (Stock stock : stocks) {
